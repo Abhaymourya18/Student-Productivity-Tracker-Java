@@ -2,9 +2,11 @@ import java.util.ArrayList;
 
 public class TaskManager {
     private ArrayList<Task> tasks;
+    private int streak = 0;
 
     public TaskManager() {
         tasks = new ArrayList<>();
+        
     }
 
     // Add task
@@ -22,16 +24,22 @@ public class TaskManager {
     }
 
     // Mark task as completed
-    public void markTaskCompleted(int index) {
-        if (index >= 0 && index < tasks.size()) {
+   public void markTaskCompleted(int index) {
+    if (index >= 0 && index < tasks.size()) {
+        if (!tasks.get(index).isCompleted()) {
             tasks.get(index).markCompleted();
-        } else {
-            System.out.println("Invalid index!");
+            streak++; // increase streak
         }
+    } else {
+        System.out.println("Invalid index!");
     }
+}
 
     // Get all tasks
     public ArrayList<Task> getTasks() {
         return tasks;
     }
+    public int getStreak() {
+    return streak;
+}
 }

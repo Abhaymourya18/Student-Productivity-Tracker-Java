@@ -11,6 +11,7 @@ public class Main {
             System.out.println("3. Mark Task Completed");
             System.out.println("4. Delete Task");
             System.out.println("5. Exit");
+            System.out.println("6. View Streak");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -49,6 +50,9 @@ public class Main {
                     System.out.println("Exiting...");
                     sc.close();
                     return;
+                case 6:
+                    System.out.println("Current Streak: " + manager.getStreak());
+                    break;
 
                 default:
                     System.out.println("Invalid choice!");
