@@ -3,23 +3,23 @@ import java.util.ArrayList;
 public class TaskManager {
     private ArrayList<Task> tasks;
     private int streak = 0;
+    private String username;
 
-    public TaskManager() {
-       tasks = FileHandler.loadTasks();
-        
-    }
-
+    public TaskManager(String username) {
+    this.username = username;
+    tasks = FileHandler.loadTasks(username);
+}
     // Add task
     public void addTask(String title, String priority) {
     tasks.add(new Task(title, priority));
-FileHandler.saveTasks(tasks);
+FileHandler.saveTasks(username, tasks);
 }
 
     // Remove task
     public void removeTask(int index) {
         if (index >= 0 && index < tasks.size()) {
             tasks.remove(index);
-FileHandler.saveTasks(tasks);
+FileHandler.saveTasks(username, tasks);
         } else {
             System.out.println("Invalid index!");
         }
@@ -31,7 +31,7 @@ FileHandler.saveTasks(tasks);
         if (!tasks.get(index).isCompleted()) {
             tasks.get(index).markCompleted();
 streak++;
-FileHandler.saveTasks(tasks);
+FileHandler.saveTasks(username, tasks);
 }
         }
      else {

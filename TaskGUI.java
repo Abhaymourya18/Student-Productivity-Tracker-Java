@@ -2,42 +2,64 @@ import javax.swing.*;
 import java.awt.*;
 
 public class TaskGUI {
-    private TaskManager manager = new TaskManager();
+
+    private TaskManager manager;
     private DefaultListModel<String> listModel = new DefaultListModel<>();
     private JList<String> taskList = new JList<>(listModel);
 
-    public TaskGUI() {
-        JFrame frame = new JFrame("Productivity Tracker");
-        frame.setSize(500, 450);
+    public TaskGUI(String username) {
+
+        manager = new TaskManager(username);
+
+        JFrame frame = new JFrame("Productivity Tracker - " + username);
+        frame.setSize(600, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+
+        JPanel mainPanel = new JPanel(new BorderLayout(10,10));
+        mainPanel.setBackground(new Color(240,240,240));
+
+        // 🔹 Top Panel
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(new Color(200, 220, 240));
 
         JTextField taskField = new JTextField(15);
-
         String[] priorities = {"High", "Medium", "Low"};
         JComboBox<String> priorityBox = new JComboBox<>(priorities);
 
-        JButton addButton = new JButton("Add");
-        JButton completeButton = new JButton("Done");
-        JButton deleteButton = new JButton("Delete");
-        JButton statsButton = new JButton("Stats");
+        JButton addButton = new JButton("Add Task");
+        addButton.setBackground(new Color(70,130,180));
+        addButton.setForeground(Color.WHITE);
 
-        // Top Panel
-        JPanel topPanel = new JPanel();
         topPanel.add(taskField);
         topPanel.add(priorityBox);
         topPanel.add(addButton);
 
-        // Bottom Panel
+        // 🔹 Center List
+        taskList.setFont(new Font("Arial", Font.PLAIN, 14));
+        JScrollPane scrollPane = new JScrollPane(taskList);
+
+        // 🔹 Bottom Panel
         JPanel bottomPanel = new JPanel();
-        bottomPanel.add(completeButton);
+        bottomPanel.setBackground(new Color(220,220,220));
+
+        JButton doneButton = new JButton("Mark Done");
+        JButton deleteButton = new JButton("Delete");
+        JButton statsButton = new JButton("Stats");
+        JButton streakButton = new JButton("Streak");
+
+        bottomPanel.add(doneButton);
         bottomPanel.add(deleteButton);
         bottomPanel.add(statsButton);
+        bottomPanel.add(streakButton);
 
-        frame.add(topPanel, BorderLayout.NORTH);
-        frame.add(new JScrollPane(taskList), BorderLayout.CENTER);
-        frame.add(bottomPanel, BorderLayout.SOUTH);
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
 
-        // Load existing tasks
+        frame.add(mainPanel);
+
+        // Load tasks
         for (Task t : manager.getTasks()) {
             listModel.addElement(t.toString());
         }
@@ -54,8 +76,8 @@ public class TaskGUI {
             }
         });
 
-        // Mark Done
-        completeButton.addActionListener(e -> {
+        // Done
+        doneButton.addActionListener(e -> {
             int index = taskList.getSelectedIndex();
             if (index != -1) {
                 manager.markTaskCompleted(index);
@@ -63,7 +85,7 @@ public class TaskGUI {
             }
         });
 
-        // Delete Task
+        // Delete
         deleteButton.addActionListener(e -> {
             int index = taskList.getSelectedIndex();
             if (index != -1) {
@@ -72,9 +94,26 @@ public class TaskGUI {
             }
         });
 
-        // Show Stats
+        // Stats
         statsButton.addActionListener(e -> {
-            manager.showStats();
+            int total = manager.getTasks().size();
+            int completed = 0;
+
+            for (Task t : manager.getTasks()) {
+                if (t.isCompleted()) completed++;
+            }
+
+            JOptionPane.showMessageDialog(frame,
+                    "Total: " + total +
+                    "\nCompleted: " + completed +
+                    "\nPending: " + (total - completed) +
+                    "\nProductivity: " + (total > 0 ? (completed * 100 / total) : 0) + "%");
+        });
+
+        // Streak
+        streakButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(frame,
+                    "Current Streak: " + manager.getStreak());
         });
 
         frame.setVisible(true);
