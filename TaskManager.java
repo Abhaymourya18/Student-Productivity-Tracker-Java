@@ -42,4 +42,27 @@ public class TaskManager {
     public int getStreak() {
     return streak;
 }
+public void showStats() {
+    int total = tasks.size();
+    int completed = 0;
+
+    for (Task t : tasks) {
+        if (t.isCompleted()) {
+            completed++;
+        }
+    }
+
+    int pending = total - completed;
+
+    double percentage = 0;
+    if (total > 0) {
+        percentage = (completed * 100.0) / total;
+    }
+
+    System.out.println("\n--- Productivity Stats ---");
+    System.out.println("Total Tasks: " + total);
+    System.out.println("Completed: " + completed);
+    System.out.println("Pending: " + pending);
+    System.out.println("Productivity: " + percentage + "%");
+}
 }

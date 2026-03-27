@@ -12,6 +12,7 @@ public class Main {
             System.out.println("4. Delete Task");
             System.out.println("5. Exit");
             System.out.println("6. View Streak");
+            System.out.println("7. View Stats");
 
             System.out.print("Enter choice: ");
             int choice = sc.nextInt();
@@ -52,6 +53,9 @@ public class Main {
                     return;
                 case 6:
                     System.out.println("Current Streak: " + manager.getStreak());
+                    break;
+                case 7:
+                    manager.showStats();
                     break;
 
                 default:
