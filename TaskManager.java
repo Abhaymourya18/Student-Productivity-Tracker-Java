@@ -5,19 +5,21 @@ public class TaskManager {
     private int streak = 0;
 
     public TaskManager() {
-        tasks = new ArrayList<>();
+       tasks = FileHandler.loadTasks();
         
     }
 
     // Add task
     public void addTask(String title, String priority) {
     tasks.add(new Task(title, priority));
+FileHandler.saveTasks(tasks);
 }
 
     // Remove task
     public void removeTask(int index) {
         if (index >= 0 && index < tasks.size()) {
             tasks.remove(index);
+FileHandler.saveTasks(tasks);
         } else {
             System.out.println("Invalid index!");
         }
@@ -28,9 +30,11 @@ public class TaskManager {
     if (index >= 0 && index < tasks.size()) {
         if (!tasks.get(index).isCompleted()) {
             tasks.get(index).markCompleted();
-            streak++; // increase streak
+streak++;
+FileHandler.saveTasks(tasks);
+}
         }
-    } else {
+     else {
         System.out.println("Invalid index!");
     }
 }
