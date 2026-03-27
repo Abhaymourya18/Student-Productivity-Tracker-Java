@@ -1,9 +1,11 @@
 public class Task {
     private String title;
     private boolean isCompleted;
+    private String priority; // NEW
 
-    public Task(String title) {
+    public Task(String title, String priority) {
         this.title = title;
+        this.priority = priority;
         this.isCompleted = false;
     }
 
@@ -15,12 +17,16 @@ public class Task {
         return isCompleted;
     }
 
+    public String getPriority() {
+        return priority;
+    }
+
     public void markCompleted() {
         isCompleted = true;
     }
 
     @Override
     public String toString() {
-        return title + (isCompleted ? " [Done]" : " [Pending]");
+        return title + " [" + priority + "] " + (isCompleted ? "[Done]" : "[Pending]");
     }
 }
