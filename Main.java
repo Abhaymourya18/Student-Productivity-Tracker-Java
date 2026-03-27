@@ -20,9 +20,12 @@ public class Main {
                 case 1:
                     System.out.print("Enter task: ");
                     String task = sc.nextLine();
-                    manager.addTask(task);
-                    break;
 
+                    System.out.print("Enter priority (High/Medium/Low): ");
+                    String priority = sc.nextLine();
+
+                    manager.addTask(task, priority);
+                    break;
                 case 2:
                     System.out.println("\nTasks:");
                     for (int i = 0; i < manager.getTasks().size(); i++) {

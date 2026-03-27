@@ -8,9 +8,9 @@ public class TaskManager {
     }
 
     // Add task
-    public void addTask(String title) {
-        tasks.add(new Task(title));
-    }
+    public void addTask(String title, String priority) {
+    tasks.add(new Task(title, priority));
+}
 
     // Remove task
     public void removeTask(int index) {
